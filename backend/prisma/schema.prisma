@@ -1,0 +1,73 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  name      String
+  role      String   // admin | hr | manager | user
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Employee {
+  id          Int      @id @default(autoincrement())
+  employeeNo  String   @unique
+  name        String
+  gender      String   // male | female | other
+  age         Int?
+  phone       String?
+  email       String?
+  department  String?
+  position    String?
+  level       String?  // 1A-7C
+  hireDate    DateTime?
+  status      String   @default("active")  // active | inactive
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Department {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Position {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  level       String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Level {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
+  name        String
+  sort        Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Reward {
+  id          Int      @id @default(autoincrement())
+  employeeId  Int
+  type        String
+  reason       String
+  amount      Int      @default(0)
+  date        DateTime @default(now())
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
